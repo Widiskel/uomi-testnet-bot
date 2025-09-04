@@ -43,7 +43,9 @@ INVITE CODE : `0KM7VHLZ`
 
 - Multi Account
 - Support PK and Seed
-- Daily Swap
+- Transfer
+- Wrap & Unwrap Token
+- Swap Token
 
 ## Setup & Configure BOT
 

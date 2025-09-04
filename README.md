@@ -55,7 +55,7 @@ INVITE CODE : `0KM7VHLZ`
 2. Prepare template file
    ```
    cp .env.example .env
-   cp config/accounts_tmp.json config/accounts.json
+   cp configs/accounts_tmp.json configs/accounts.json
    ```
 3. Configure .env
    ```
@@ -63,7 +63,7 @@ INVITE CODE : `0KM7VHLZ`
    ```
 4. Configure accounts
    ```
-   nano config/accounts.json
+   nano configs/accounts.json
    ```
 5. Install dependency
    ```

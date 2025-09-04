@@ -24,7 +24,9 @@
 #New
 
 Uomi Testnet + Synthra
+
 Reward : Confirmed
+
 Network : Uomi Testnet
 
 Link: https://synthra.org/0KM7VHLZ

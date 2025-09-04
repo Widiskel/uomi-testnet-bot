@@ -9,6 +9,7 @@ import (
 	"github.com/widiskel/uomi-testnet-bot/internal/config"
 	"github.com/widiskel/uomi-testnet-bot/internal/domain/model"
 	"github.com/widiskel/uomi-testnet-bot/internal/platform/logger"
+	"github.com/widiskel/uomi-testnet-bot/pkg/utils"
 )
 
 type Worker struct {
@@ -68,30 +69,30 @@ func Run(account string, index int, cfg config.Config) {
 			continue
 		}
 
-		// amount, amountInWei, _ := utils.GenerateRandomAmount(cfg.TxAmountMin, cfg.TxAmountMax, config.GetNetwork(contracts.UOMI_TESTNET).Decimals)
-		// if err := ec.TransferNative(); err != nil {
-		// 	ec.Close()
-		// 	if handleError(&worker, log, err) {
-		// 		return
-		// 	}
-		// 	continue
-		// }
+		amount, amountInWei, _ := utils.GenerateRandomAmount(cfg.TxAmountMin, cfg.TxAmountMax, config.GetNetwork(contracts.UOMI_TESTNET).Decimals)
+		if err := ec.TransferNative(); err != nil {
+			ec.Close()
+			if handleError(&worker, log, err) {
+				return
+			}
+			continue
+		}
 
-		// if err := ec.DepositToken(contracts.GetToken(contracts.UOMI_TESTNET, contracts.WRAPPED), amount, amountInWei); err != nil {
-		// 	ec.Close()
-		// 	if handleError(&worker, log, err) {
-		// 		return
-		// 	}
-		// 	continue
-		// }
+		if err := ec.DepositToken(contracts.GetToken(contracts.UOMI_TESTNET, contracts.WRAPPED), amount, amountInWei); err != nil {
+			ec.Close()
+			if handleError(&worker, log, err) {
+				return
+			}
+			continue
+		}
 
-		// if err := ec.WithdrawToken(contracts.GetToken(contracts.UOMI_TESTNET, contracts.WRAPPED)); err != nil {
-		// 	ec.Close()
-		// 	if handleError(&worker, log, err) {
-		// 		return
-		// 	}
-		// 	continue
-		// }
+		if err := ec.WithdrawToken(contracts.GetToken(contracts.UOMI_TESTNET, contracts.WRAPPED)); err != nil {
+			ec.Close()
+			if handleError(&worker, log, err) {
+				return
+			}
+			continue
+		}
 
 		if err := executeSynthraOperation(ec, cfg); err != nil {
 			ec.Close()

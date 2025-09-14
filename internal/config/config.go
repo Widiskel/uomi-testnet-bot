@@ -10,9 +10,10 @@ import (
 )
 
 type Config struct {
-	AccountsPath string
-	TxAmountMin  float64
-	TxAmountMax  float64
+	AccountsPath    string
+	TxAmountMin     float64
+	TxAmountMax     float64
+	TargetSyncNonce uint64
 }
 
 func Load() Config {
@@ -33,10 +34,17 @@ func Load() Config {
 		max = 0.05
 	}
 
+	nonceStr := os.Getenv("TARGET_SYNC_NONCE")
+	nonce, err := strconv.ParseUint(nonceStr, 0, 64)
+	if err != nil || max <= min {
+		nonce = 0
+	}
+
 	return Config{
-		AccountsPath: "configs/accounts.json",
-		TxAmountMin:  min,
-		TxAmountMax:  max,
+		AccountsPath:    "configs/accounts.json",
+		TxAmountMin:     min,
+		TxAmountMax:     max,
+		TargetSyncNonce: uint64(nonce),
 	}
 }
 

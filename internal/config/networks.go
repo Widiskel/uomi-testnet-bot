@@ -19,7 +19,7 @@ var Networks = map[contracts.NetworkID]Network{
 	contracts.UOMI_TESTNET: {
 		Name:     "Uomi Testnet",
 		ChainID:  4386,
-		RPCURL:   "https://finney.uomi.ai",
+		RPCURL:   "https://turing.uomi.ai/",
 		Explorer: "https://explorer.uomi.ai/",
 		Symbol:   "UOMI",
 		Decimals: 18,

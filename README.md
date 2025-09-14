@@ -23,7 +23,8 @@
 
 #New
 
-Uomi Testnet + Synthra
+ - Uomi Testnet (FINNEY) (PASSED)
+ - Uomi Testnet (TURING)
 
 Reward : Confirmed
 
@@ -46,6 +47,7 @@ INVITE CODE : `0KM7VHLZ`
 - Transfer
 - Wrap & Unwrap Token
 - Swap Token
+- Sync Nonce
 
 ## Setup & Configure BOT
 

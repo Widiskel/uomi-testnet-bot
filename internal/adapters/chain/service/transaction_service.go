@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 	"math/big"
 
@@ -206,4 +207,21 @@ func (s *TransactionService) SwapUniversal(swapParam *model.SwapModel) (receipt 
 	}
 	s.Log.Log(fmt.Sprintf("Successfully Swap Universal \n%s %s to %s %s", utils.FormatUnits(swapParam.AmountInWei, swapParam.FromToken.Decimal), swapParam.FromToken.Symbol, *amountOut, swapParam.ToToken.Symbol), 3000)
 	return receipt, err
+}
+
+func (s *TransactionService) GetNonce() (uint64, error) {
+	s.Log.Log("Getting Blockchain Nonce...")
+	nonce, err := s.Client.NonceAt(context.Background(), s.Session.PublicKey, nil)
+	if err != nil {
+		return 0, err
+	}
+	return nonce, nil
+}
+func (s *TransactionService) GetWalletNonce() (uint64, error) {
+	s.Log.Log("Getting Wallet Nonce...")
+	nonce, err := s.Client.PendingNonceAt(context.Background(), s.Session.PublicKey)
+	if err != nil {
+		return 0, err
+	}
+	return nonce, nil
 }

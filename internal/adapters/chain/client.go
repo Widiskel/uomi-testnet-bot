@@ -98,6 +98,28 @@ func (e *EthersClient) GetWalletBalance(update ...bool) error {
 	return e.TransactionService.GetWalletBalance(update...)
 }
 
+func (e *EthersClient) SyncNonce(targetNonce uint64) error {
+	chainNonce, err := e.TransactionService.GetNonce()
+	if err != nil {
+		return err
+	}
+	// walletNonce, err := e.TransactionService.GetWalletNonce()
+	// if err != nil {
+	// 	return err
+	// }
+	walletNonce := uint64(targetNonce)
+	e.log.Log(fmt.Sprintf("Chain Nonce %v, Wallet Nonce %v", chainNonce, walletNonce))
+	for i := chainNonce; i < walletNonce; i++ {
+		err := e.TransferNative()
+		if err != nil {
+			continue
+		}
+		chainNonce, _ = e.TransactionService.GetNonce()
+		e.log.Log(fmt.Sprintf("Chain Nonce %v, Wallet Nonce %v", chainNonce, walletNonce))
+	}
+
+	return nil
+}
 func (e *EthersClient) TransferNative(to ...common.Address) error {
 	dest := e.session.PublicKey
 	if len(to) > 0 {
@@ -107,9 +129,9 @@ func (e *EthersClient) TransferNative(to ...common.Address) error {
 	if err != nil {
 		return fmt.Errorf("failed to generate random amount: %w", err)
 	}
-	e.log.Log(fmt.Sprintf("Preparing to Transfer %s %s \nto %s", amount, e.network.Symbol, dest.Hex()), 2000)
+	e.log.Log(fmt.Sprintf("Preparing to Transfer %s %s \nto %s", amount, e.network.Symbol, dest.Hex()))
 	e.TransactionService.TransferNative(e.session.PublicKey, amountInWei)
-	e.log.Log(fmt.Sprintf("Successfully Transfer %s %s \nto %s", amount, e.network.Symbol, dest.Hex()), 2000)
+	e.log.Log(fmt.Sprintf("Successfully Transfer %s %s \nto %s", amount, e.network.Symbol, dest.Hex()))
 	return nil
 }
 

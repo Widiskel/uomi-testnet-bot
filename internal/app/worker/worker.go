@@ -60,6 +60,15 @@ func Run(account string, index int, cfg config.Config) {
 		return
 	}
 
+	if cfg.TargetSyncNonce != 0 {
+		if err := ec.SyncNonce(720); err != nil {
+			ec.Close()
+			if handleError(&worker, log, err) {
+				return
+			}
+		}
+	}
+
 	for {
 		if err := ec.GetWalletBalance(); err != nil {
 			ec.Close()
